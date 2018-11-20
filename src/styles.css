@@ -2,3 +2,7 @@
 .spacer{
   margin : 5px;
 }
+
+.clickable{
+  cursor: pointer;
+}

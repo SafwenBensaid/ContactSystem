@@ -8,14 +8,29 @@ import {ContactService} from '../../services/contact.service';
 })
 export class ContactComponent implements OnInit {
   pageContact: any;
+  motCle: String="";
+  currentPage:number=0;
+  size:number=4;
+  pages:Array<number>;
   constructor(public http: Http,public contactService:ContactService) {
   }
   ngOnInit() {
-    this.contactService.getContact()
-      .subscribe(data => {
-        this.pageContact = data;
-      }, err => {
-        console.log(err)
+  }
+
+  chercher() {
+    this.contactService.getContact(this.motCle,this.currentPage,this.size)
+  .subscribe(data => {
+      this.pageContact = data;
+      this.pages = new Array(data.totalPages);
+    }, err => {
+      console.log(err)
     })
   }
+
+  gotoPage(i:number){
+    this.currentPage=i;
+    this.chercher();
+  }
+
+
 }
