@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {Contact} from '../../model/contact.model';
 import {ContactService} from '../../services/contact.service';
+import {Router} from '@angular/router';
+import {Contact} from '../../model/contact.model';
 
 @Component({
   selector: 'app-new-contact',
@@ -8,28 +9,24 @@ import {ContactService} from '../../services/contact.service';
   styleUrls: ['./new-contact.component.css']
 })
 export class NewContactComponent implements OnInit {
-  contact:Contact=new Contact();
-  mode:String="addNew";
-  constructor(public contactService:ContactService) {
-  }
+  contact:Contact=new Contact;
+  mode:String="insert";
+  constructor(public contactService:ContactService, public router:Router) { }
 
   ngOnInit() {
   }
 
-  addNewContact() {
-    this.mode='addNew';
-    location.reload();
-  }
-
-
-
-  saveContact() {
-    this.contactService.setContact(this.contact)
+  onSaveContact(dataForm) {
+    this.contactService.insertContact(dataForm)
       .subscribe(data=>{
         this.contact=data;
         this.mode="confirm";
-      }, err=>{
-        console.log(err);
+      },err=>{
+        console.log(JSON.parse(err._body));
       })
+  }
+
+  onListContacts() {
+    this.router.navigate(['listContacts']);
   }
 }

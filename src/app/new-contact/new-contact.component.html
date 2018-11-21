@@ -1,40 +1,47 @@
 <div class="container spacer">
 
-  <div class="panel panel-primary" *ngIf="mode=='addNew'">
-    <div class="panel-heading"> Nouveau contact</div>
-    <div class="panel-body">
-      <div>
-        <div class="form-group">
-          <label class="control-label">Nom: </label>
-          <input class="form-control" type="text" [(ngModel)]="contact.nom"/>
+  <div class="card" *ngIf="mode=='insert'">
+    <div class="card-header">Nouveau Contact</div>
+    <div class="card-body">
+      <form #contactForm="ngForm" (ngSubmit)="onSaveContact(contactForm.value)">
+        <div class="card-group">
+          <label class="col-form-label">Nom:</label>
+          <input class="form-control" type="text" name="nom" #nom="ngModel" ngModel required minlength="3"/>
+          <div class="alert alert-danger" *ngIf="nom.invalid && (nom.dirty || nom.touched)">
+            <div *ngIf="nom.errors.required"> *Nom est obligatoire</div>
+            <div *ngIf="nom.errors.minlength"> *Nom doit contenir au minimum 3 caractères</div>
+          </div>
         </div>
-        <div class="form-group">
-          <label class="control-label">Prenom: </label>
-          <input class="form-control" type="text" [(ngModel)]="contact.prenom"/>
+        <div class="card-group">
+          <label class="col-form-label">Prénom:</label>
+          <input class="form-control" type="text" name="prenom" #prenom="ngModel" ngModel required/>
         </div>
-        <div class="form-group">
-          <label class="control-label">Email: </label>
-          <input class="form-control" type="text" [(ngModel)]="contact.email"/>
+        <div class="card-group">
+          <label class="col-form-label">Email:</label>
+          <input class="form-control" type="email" name="email" #email="ngModel" ngModel email/>
+          <div class="alert alert-danger" *ngIf="email.invalid && (email.dirty || email.touched)">
+            <div *ngIf="email.errors.email"> *Email doit respecter le format id@domain</div>
+          </div>
         </div>
-        <div class="form-group">
-          <label class="control-label">Date de Naissance: </label>
-          <input class="form-control" type="date" [(ngModel)]="contact.dateNaissance"/>
+        <div class="card-group">
+          <label class="col-form-label">Date de naissance:</label>
+          <input class="form-control" type="date" name="dateNaissance" ngModel required/>
         </div>
-        <div class="form-group">
-          <label class="control-label">Numero de telephone: </label>
-          <input class="form-control" type="text" [(ngModel)]="contact.tel"/>
+        <div class="card-group">
+          <label class="col-form-label">Nunero de téléphone:</label>
+          <input class="form-control" type="number" name="tel" ngModel required/>
         </div>
-        <div class="form-group">
-          <label class="control-label">Photo: </label>
-          <input class="form-control" type="text" [(ngModel)]="contact.photo"/>
+        <div class="card-group">
+          <label class="col-form-label">Photo:</label>
+          <input class="form-control" type="text" name="photo" ngModel required/>
         </div>
-        <button class="btn btn-primary" (click)="saveContact()">Save</button>
-      </div>
+        <button class="btn btn-primary spacer" type="submit" [disabled]="!contactForm.valid">Save</button>
+      </form>
     </div>
   </div>
 
   <div class="panel panel-primary" *ngIf="mode=='confirm'">
-    <div class="panel-heading"> Confirmation ajout contact</div>
+    <div class="panel-heading"> Contact ajouté</div>
     <div class="panel-body">
       <div>
         <div class="form-group">
@@ -65,7 +72,7 @@
           <label class="control-label">Photo: </label>
           <label>{{contact.photo}}</label>
         </div>
-        <button class="btn btn-primary" (click)="addNewContact()">Nouveau Contact</button>
+        <button class="btn btn-primary" (click)="onListContacts()">Liste des Contact</button>
       </div>
     </div>
   </div>

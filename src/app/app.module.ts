@@ -6,25 +6,28 @@ import { AppComponent } from './app.component';
 import {HttpModule} from '@angular/http';
 
 import { RouterModule, Routes} from '@angular/router';
-import { ContactComponent } from './contact/contact.component';
+import { ListContactComponent } from './list-contact/list-contact.component';
 import { AboutComponent } from './about/about.component';
 import {ContactService} from '../services/contact.service';
 import {FormsModule} from '@angular/forms';
 import { NewContactComponent } from './new-contact/new-contact.component';
+import { EditContactComponent } from './edit-contact/edit-contact.component';
 
 
 const appRoutes:Routes=[
   {path:'about',component:AboutComponent},
-  {path:'contact',component:ContactComponent},
+  {path:'listContacts',component:ListContactComponent},
   {path:'newContact',component:NewContactComponent},
+  {path:'editContact/:id',component:EditContactComponent},
   {path:'',redirectTo:'/about',pathMatch:'full'}
 ];
 @NgModule({
   declarations: [
     AppComponent,
-    ContactComponent,
+    ListContactComponent,
     AboutComponent,
-    NewContactComponent
+    NewContactComponent,
+    EditContactComponent
   ],
   imports: [
     BrowserModule,
